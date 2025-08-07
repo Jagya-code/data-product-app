@@ -1,26 +1,57 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <nav class="tabs">
+      <router-link to="/" exact-active-class="active">Load Data</router-link>
+      <router-link to="/tables" exact-active-class="active">Tables</router-link>
+      <router-link to="/diagram" exact-active-class="active">ER Diagram</router-link>
+    </nav>
+    <router-view />
+  </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
 
+<script>
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+  name: 'App'
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8; /* soft light gray background */
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 14px 0;
+  background: #f0f4f8; /* soft background */
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.tabs a {
+  text-decoration: none;
+  color: #444;
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-weight: 500;
+}
+
+.tabs a:hover {
+  background-color: #dfeaf5;
+  color: #1e3a5f;
+}
+
+.tabs .active {
+  background-color: #c5d7e5;
+  color: #1e3a5f;
+  font-weight: 600;
 }
 </style>

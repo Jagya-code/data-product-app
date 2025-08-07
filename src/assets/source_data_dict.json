@@ -1,0 +1,462 @@
+[
+{
+  "table_name": "Policy",
+  "table_description": "Comprehensive details about insurance policies.",
+  "fields": [
+    {
+      "field_name": "Policy Id",
+      "field_description": "Unique identifier for the insurance policy."
+    },
+    {
+      "field_name": "Cust Id",
+      "field_description": "Unique identifier for the customer associated with the policy."
+    },
+    {
+      "field_name": "Product Code",
+      "field_description": "Code identifying the specific insurance product."
+    },
+    {
+      "field_name": "Policy Type",
+      "field_description": "Categorization of the insurance policy (e.g., term, whole life)."
+    },
+    {
+      "field_name": "Pol Status",
+      "field_description": "Current state of the insurance policy (e.g., In Force, Cancelled)."
+    },
+    {
+      "field_name": "Agent Id",
+      "field_description": "Unique identifier for the agent who sold the policy."
+    }
+  ]
+},
+{
+  "Table": "Policy Term",
+  "description": "Details of individual terms within an insurance policy, including coverage dates, status, and associated parties.",
+  "fields": [
+    {
+      "field_name": "Policy Id",
+      "description": "Unique identifier for the insurance policy."
+    },
+    {
+      "field_name": "Term Id",
+      "description": "Unique identifier for a specific term or period within the policy."
+    },
+    {
+      "field_name": "Cust Id",
+      "description": "Unique identifier for the customer associated with the policy term."
+    },
+    {
+      "field_name": "Term Number",
+      "description": "Sequential number indicating the order of the term within the policy."
+    },
+    {
+      "field_name": "Product Code",
+      "description": "Code identifying the specific insurance product associated with the policy term."
+    },
+    {
+      "field_name": "Effective date",
+      "description": "Date on which the policy term's coverage begins."
+    },
+    {
+      "field_name": "Expiry date",
+      "description": "Date on which the policy term's coverage ends."
+    },
+    {
+      "field_name": "Issue Date",
+      "description": "Date when the policy was initially issued."
+    },
+    {
+      "field_name": "Policy Type",
+      "description": "Categorization of the policy, such as 'Home', 'Auto', or 'Life'."
+    },
+    {
+      "field_name": "Pol Status",
+      "description": "Current state of the policy, such as 'Active', 'Expired', or 'Cancelled'."
+    },
+    {
+      "field_name": "Renewal Date",
+      "description": "Date on which the policy is scheduled for renewal."
+    },
+    {
+      "field_name": "Agent Id",
+      "description": "Unique identifier for the agent associated with the policy."
+    }
+  ]
+},
+{
+"table_name": "Property Details",
+"table_description": "Comprehensive information about the insured properties, including their type, location, and characteristics.",
+"fields": [
+{
+"field_name": "Policy Id",
+"description": "Unique identifier for the insurance policy associated with the property."
+},
+{
+"field_name": "Term Id",
+"description": "Unique identifier for the specific term or duration of the insurance policy."
+},
+{
+"field_name": "Property ID",
+"description": "Unique identifier for the insured property."
+},
+{
+"field_name": "Property Type",
+"description": "Categorization of the property, such as house, apartment, or commercial building."
+},
+{
+"field_name": "Bldg Name",
+"description": "Name of the building where the property is located."
+},
+{
+"field_name": "Address",
+"description": "Full address of the insured property."
+},
+{
+"field_name": "PostCode",
+"description": "Postal code of the property's location."
+},
+{
+"field_name": "Business Use",
+"description": "Indicates whether the property is used for personal or commercial purposes."
+},
+{
+"field_name": "Property Built Year",
+"description": "Year in which the property was originally constructed."
+},
+{
+"field_name": "Number of rooms",
+"description": "Total number of rooms within the insured property."
+},
+{
+"field_name": "Occupants",
+"description": "Number of people currently residing at the property."
+},
+{
+"field_name": "Alarm Installed",
+"description": "Indicates whether an alarm system is installed in the property."
+}
+]
+},
+{
+"table_name": "Item Details",
+"table_description": "This table stores granular information about items covered under an insurance policy.",
+"fields": [
+{
+"field_name": "Policy Id",
+"description": "A unique identifier for the insurance policy."
+},
+{
+"field_name": "Term Id",
+"description": "A unique identifier for the specific term or duration of the insurance policy."
+},
+{
+"field_name": "Item Id",
+"description": "A unique identifier for the insured item."
+},
+{
+"field_name": "Item Type",
+"description": "The category or class of the insured item (e.g., Painting, Jewelry, Electronics)."
+},
+{
+"field_name": "Item Description",
+"description": "A detailed description of the insured item."
+},
+{
+"field_name": "Replacement Value",
+"description": "The estimated cost to replace the insured item if it is lost, stolen, or damaged."
+}
+]
+},
+{
+  "table_name": "Policy Coverage",
+  "table_description": "This table stores information about the coverages included in each insurance policy.",
+  "fields": [
+    {
+      "field_name": "Policy Id",
+      "field_description": "Unique identifier for the insurance policy."
+    },
+    {
+      "field_name": "Term Id",
+      "field_description": "Unique identifier for the specific term or duration of the policy."
+    },
+    {
+      "field_name": "Coverage Id",
+      "field_description": "Unique identifier for the specific coverage included in the policy."
+    },
+    {
+      "field_name": "Property Id",
+      "field_description": "Unique identifier for the property covered by the insurance policy."
+    },
+    {
+      "field_name": "Coverage Code",
+      "field_description": "Code describing the type of coverage, e.g., 'Building Accidental Damage'."
+    },
+    {
+      "field_name": "Sum Insured",
+      "field_description": "The maximum amount the insurer will pay for a covered loss under this coverage."
+    },
+    {
+      "field_name": "Premium",
+      "field_description": "The amount paid by the policyholder for this specific coverage."
+    },
+    {
+      "field_name": "Effective Date ",
+      "field_description": "The date when the coverage becomes active."
+    },
+    {
+      "field_name": "Expiry Date",
+      "field_description": "The date when the coverage expires."
+    }
+  ]
+},
+{
+  "table_name": "Coverage Item Details",
+  "table_description": "Details of specific items covered under an insurance policy, including coverage amounts and premiums.",
+  "fields": [
+    {
+      "field_name": "Policy Id",
+      "field_description": "Unique identifier for the insurance policy."
+    },
+    {
+      "field_name": "Term Id",
+      "field_description": "Unique identifier for the specific term or duration of the policy."
+    },
+    {
+      "field_name": "Coverage Id",
+      "field_description": "Unique identifier for the type of coverage applied to the item."
+    },
+    {
+      "field_name": "Item Id",
+      "field_description": "Unique identifier for the specific item being insured."
+    },
+    {
+      "field_name": "Coverage Code",
+      "field_description": "Code representing the type of coverage, such as 'Content Theft'."
+    },
+    {
+      "field_name": "Sum Insured",
+      "field_description": "The maximum amount the insurer will pay out for a covered loss on the item."
+    },
+    {
+      "field_name": "Premium",
+      "field_description": "The amount paid by the policyholder for the coverage of the item."
+    },
+    {
+      "field_name": "Deductible Amount",
+      "field_description": "The amount the policyholder must pay out-of-pocket before the insurance coverage applies to the item."
+    },
+    {
+      "field_name": "Effective Date",
+      "field_description": "The date on which the coverage for the item becomes active."
+    },
+    {
+      "field_name": "Expiry Date",
+      "field_description": "The date on which the coverage for the item ends."
+    }
+  ]
+},
+{
+  "table_name": "Peril Details",
+  "table_description": "Details of the specific perils covered under an insurance policy.",
+  "fields": [
+    {
+      "field_name": "Polilcy Id",
+      "field_description": "Unique identifier for the insurance policy."
+    },
+    {
+      "field_name": "Term Id",
+      "field_description": "Unique identifier for the specific term or duration of the policy."
+    },
+    {
+      "field_name": "Coverage Id",
+      "field_description": "Unique identifier for the specific coverage within the policy."
+    },
+    {
+      "field_name": "Peril Type",
+      "field_description": "The type of peril covered, such as fire, wind, or flood."
+    },
+    {
+      "field_name": "Premium",
+      "field_description": "The amount of money paid for the peril's coverage."
+    },
+    {
+      "field_name": "Limit",
+      "field_description": "The maximum amount the insurer will pay for a covered loss caused by the peril."
+    },
+    {
+      "field_name": "Excess",
+      "field_description": "The amount the policyholder must pay out-of-pocket before the insurance coverage kicks in for the specific peril."
+    }
+  ]
+},
+{
+"table_name": "Policy Premium Details",
+"table_description": "Details of policy premiums, including annual premium and installment information.",
+"fields": [
+    {
+        "field_name": "Polilcy Id",
+        "field_description": "Unique identifier for the insurance policy."
+    },
+    {
+        "field_name": "Term Id",
+        "field_description": "Identifier for the specific term or duration of the policy."
+    },
+    {
+        "field_name": "Annual Premium",
+        "field_description": "The total premium amount due annually for the policy."
+    },
+    {
+        "field_name": "Installment",
+        "field_description": "The number of installments in which the annual premium is divided."
+    }
+]
+},
+{
+  "table_name": "Policy Transaction",
+  "table_description": "Details of financial transactions related to insurance policies.",
+  "fields": [
+    {
+      "field_name": "Polilcy Id",
+      "field_description": "Unique identifier for the insurance policy."
+    },
+    {
+      "field_name": "Term Id",
+      "field_description": "Unique identifier for a specific term or period within the insurance policy."
+    },
+    {
+      "field_name": "Transaction Id",
+      "field_description": "Unique identifier for each financial transaction."
+    },
+    {
+      "field_name": "Transaction Type",
+      "field_description": "Type of financial transaction, such as premium payment or claim payout."
+    },
+    {
+      "field_name": "Transaction Amount",
+      "field_description": "Monetary value of the transaction."
+    },
+    {
+      "field_name": "Transaction Date",
+      "field_description": "Date when the transaction occurred."
+    },
+    {
+      "field_name": "Transaction Status",
+      "field_description": "Current status of the transaction, such as completed, pending, or failed."
+    },
+    {
+      "field_name": "Payment Type",
+      "field_description": "Method used for the transaction payment, like cheque, credit card, or bank transfer."
+    }
+  ]
+},
+{
+  "table_name": "Claim Header",
+  "table_description": "This table contains the header information for each insurance claim.",
+  "fields": [
+    {
+      "field_name": "Claim Id",
+      "field_description": "Unique identifier for the claim."
+    },
+    {
+      "field_name": "Policy Id",
+      "field_description": "Unique identifier for the insurance policy associated with the claim."
+    },
+    {
+      "field_name": "Term Id",
+      "field_description": "Identifier for the specific policy term during which the loss occurred."
+    },
+    {
+      "field_name": "Loss Date",
+      "field_description": "Date on which the loss event occurred."
+    },
+    {
+      "field_name": "Registered Date",
+      "field_description": "Date when the claim was registered."
+    },
+    {
+      "field_name": "Loss type",
+      "field_description": "Type of loss event that triggered the claim (e.g., accidental damage, theft)."
+    },
+    {
+      "field_name": "Claim Status",
+      "field_description": "Current status of the claim (e.g., Open, Closed, Pending)."
+    },
+    {
+      "field_name": "Loss location",
+      "field_description": "Location where the loss event occurred, often represented by a postcode."
+    },
+    {
+      "field_name": "Claimant ID",
+      "field_description": "Unique identifier for the party who filed the claim."
+    }
+  ]
+},
+{
+  "table_name": "Claim Detail",
+  "table_description": "Provides detailed information for each item within an insurance claim.",
+  "fields": [
+    {
+      "field_name": "Claim Id",
+      "field_description": "Unique identifier for the insurance claim."
+    },
+    {
+      "field_name": "Item id",
+      "field_description": "Unique identifier for the item associated with the claim."
+    },
+    {
+      "field_name": "Coverage ID",
+      "field_description": "Identifier for the specific coverage applicable to the claimed item."
+    },
+    {
+      "field_name": "Loss Description",
+      "field_description": "Describes the details of the loss event for the item."
+    },
+    {
+      "field_name": "Estimate",
+      "field_description": "Estimated monetary value of the loss for the item."
+    },
+    {
+      "field_name": "Loss Cause Code",
+      "field_description": "Standardized code representing the cause of the loss."
+    }
+  ]
+},
+{
+  "table_name": "Party File",
+  "table_description": "Comprehensive file containing information about individual customers.",
+  "fields": [
+    {
+      "field_name": "Cust Id",
+      "field_description": "Unique identifier for each customer in the system."
+    },
+    {
+      "field_name": "Cust Name",
+      "field_description": "Name of the customer associated with the account."
+    },
+    {
+      "field_name": "Gender",
+      "field_description": "Gender of the customer."
+    },
+    {
+      "field_name": "DateofBirth",
+      "field_description": "Customer's date of birth for age verification and demographic analysis."
+    },
+    {
+      "field_name": "Income Segment",
+      "field_description": "Segment of income to which the customer belongs, used for targeted marketing and risk assessment."
+    },
+    {
+      "field_name": "Address",
+      "field_description": "Full address details of the customer."
+    },
+    {
+      "field_name": "Marital Status",
+      "field_description": "Marital status of the customer."
+    },
+    {
+      "field_name": "Cust Status",
+      "field_description": "Current status of the customer (e.g., Active, Inactive)."
+    }
+  ]
+}
+]
