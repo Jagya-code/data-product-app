@@ -22,8 +22,8 @@ html, body {
   padding: 0;
   overflow: hidden;
   height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f8; /* soft light gray background */
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+  background-color: #f4f6f8; 
 }
 
 .tabs {
@@ -31,7 +31,7 @@ html, body {
   justify-content: center;
   gap: 1.5rem;
   padding: 14px 0;
-  background: #f0f4f8; /* soft background */
+  background: #f0f4f8; 
   border-bottom: 1px solid #cbd5e1;
 }
 
