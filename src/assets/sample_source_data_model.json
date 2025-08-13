@@ -1,0 +1,219 @@
+{
+    "schema": {
+      "name": "CustomerCRMSchema",
+      "version": "1.0.0",
+      "description": "A comprehensive schema for storing customer, transaction, and vendor data for a CRM system.",
+      "tables": [
+        {
+          "tableName": "Customers",
+          "description": "Stores core information about individual customers.",
+          "fields": [
+            {
+              "fieldName": "customer_id",
+              "dataType": "UUID",
+              "description": "Unique identifier for the customer (Primary Key).",
+              "sampleValue": "a1b2c3d4-e5f6-7890-1234-567890abcdef"
+            },
+            {
+              "fieldName": "first_name",
+              "dataType": "VARCHAR(100)",
+              "description": "Customer's first name.",
+              "sampleValue": "John"
+            },
+            {
+              "fieldName": "last_name",
+              "dataType": "VARCHAR(100)",
+              "description": "Customer's last name.",
+              "sampleValue": "Doe"
+            },
+            {
+              "fieldName": "email",
+              "dataType": "VARCHAR(255)",
+              "description": "Customer's primary email address (should be unique).",
+              "sampleValue": "john.doe@example.com"
+            },
+            {
+              "fieldName": "phone_number",
+              "dataType": "VARCHAR(20)",
+              "description": "Customer's primary phone number.",
+              "sampleValue": "+1-555-123-4567"
+            },
+            {
+              "fieldName": "address_street",
+              "dataType": "VARCHAR(255)",
+              "description": "Street address line.",
+              "sampleValue": "123 Main St"
+            },
+            {
+              "fieldName": "address_city",
+              "dataType": "VARCHAR(100)",
+              "description": "City of the customer's address.",
+              "sampleValue": "Anytown"
+            },
+            {
+              "fieldName": "address_state",
+              "dataType": "VARCHAR(50)",
+              "description": "State or province of the customer's address.",
+              "sampleValue": "CA"
+            },
+            {
+              "fieldName": "address_postal_code",
+              "dataType": "VARCHAR(20)",
+              "description": "Postal or ZIP code.",
+              "sampleValue": "90210"
+            },
+            {
+              "fieldName": "address_country",
+              "dataType": "VARCHAR(50)",
+              "description": "Country of the customer's address.",
+              "sampleValue": "USA"
+            },
+            {
+              "fieldName": "status",
+              "dataType": "ENUM('Active', 'Inactive', 'Lead', 'Churned')",
+              "description": "Current status of the customer in the sales/service lifecycle.",
+              "sampleValue": "Active"
+            },
+            {
+              "fieldName": "created_at",
+              "dataType": "TIMESTAMP",
+              "description": "Timestamp when the customer record was created.",
+              "sampleValue": "2023-10-27T10:00:00Z"
+            },
+            {
+              "fieldName": "updated_at",
+              "dataType": "TIMESTAMP",
+              "description": "Timestamp of the last update to the customer record.",
+              "sampleValue": "2023-10-27T11:30:00Z"
+            }
+          ]
+        },
+        {
+          "tableName": "Transactions",
+          "description": "Logs all financial transactions made by customers.",
+          "fields": [
+            {
+              "fieldName": "transaction_id",
+              "dataType": "UUID",
+              "description": "Unique identifier for the transaction (Primary Key).",
+              "sampleValue": "f0e9d8c7-b6a5-4321-fedc-ba9876543210"
+            },
+            {
+              "fieldName": "customer_id",
+              "dataType": "UUID",
+              "description": "Foreign key referencing the customer who made the transaction.",
+              "sampleValue": "a1b2c3d4-e5f6-7890-1234-567890abcdef"
+            },
+            {
+              "fieldName": "vendor_id",
+              "dataType": "UUID",
+              "description": "Foreign key referencing the vendor associated with the transaction (e.g., payment processor, supplier).",
+              "sampleValue": "11223344-5566-7788-99aa-bbccddeeff00"
+            },
+            {
+              "fieldName": "transaction_date",
+              "dataType": "TIMESTAMP",
+              "description": "Date and time when the transaction occurred.",
+              "sampleValue": "2023-10-27T11:25:10Z"
+            },
+            {
+              "fieldName": "amount",
+              "dataType": "DECIMAL(10, 2)",
+              "description": "The total monetary value of the transaction.",
+              "sampleValue": 199.99
+            },
+            {
+              "fieldName": "currency",
+              "dataType": "VARCHAR(3)",
+              "description": "The currency of the transaction (ISO 4217 code).",
+              "sampleValue": "USD"
+            },
+            {
+              "fieldName": "transaction_type",
+              "dataType": "ENUM('Purchase', 'Refund', 'Subscription', 'Credit')",
+              "description": "The nature of the transaction.",
+              "sampleValue": "Purchase"
+            },
+            {
+              "fieldName": "payment_method",
+              "dataType": "VARCHAR(50)",
+              "description": "Method used for payment (e.g., Credit Card, PayPal, Bank Transfer).",
+              "sampleValue": "Credit Card"
+            },
+            {
+              "fieldName": "description",
+              "dataType": "TEXT",
+              "description": "A brief description or memo for the transaction.",
+              "sampleValue": "Annual Subscription - Pro Plan"
+            }
+          ]
+        },
+        {
+          "tableName": "Vendors",
+          "description": "Stores information about vendors, suppliers, or third-party service providers.",
+          "fields": [
+            {
+              "fieldName": "vendor_id",
+              "dataType": "UUID",
+              "description": "Unique identifier for the vendor (Primary Key).",
+              "sampleValue": "11223344-5566-7788-99aa-bbccddeeff00"
+            },
+            {
+              "fieldName": "vendor_name",
+              "dataType": "VARCHAR(255)",
+              "description": "The legal name of the vendor company.",
+              "sampleValue": "Stripe Inc."
+            },
+            {
+              "fieldName": "service_type",
+              "dataType": "VARCHAR(100)",
+              "description": "The type of service or product the vendor provides.",
+              "sampleValue": "Payment Processor"
+            },
+            {
+              "fieldName": "contact_person",
+              "dataType": "VARCHAR(100)",
+              "description": "Primary contact person at the vendor.",
+              "sampleValue": "Jane Smith"
+            },
+            {
+              "fieldName": "contact_email",
+              "dataType": "VARCHAR(255)",
+              "description": "Contact email for the vendor.",
+              "sampleValue": "support@stripe.com"
+            },
+            {
+              "fieldName": "contact_phone",
+              "dataType": "VARCHAR(20)",
+              "description": "Contact phone for the vendor.",
+              "sampleValue": "+1-888-926-2289"
+            },
+            {
+              "fieldName": "created_at",
+              "dataType": "TIMESTAMP",
+              "description": "Timestamp when the vendor record was added to the system.",
+              "sampleValue": "2022-01-15T09:00:00Z"
+            }
+          ]
+        }
+      ],
+      "relationships": [
+        {
+          "fromTable": "Customers",
+          "fromField": "customer_id",
+          "toTable": "Transactions",
+          "toField": "customer_id",
+          "type": "One-to-Many",
+          "description": "A customer can have multiple transactions, but each transaction belongs to a single customer."
+        },
+        {
+          "fromTable": "Vendors",
+          "fromField": "vendor_id",
+          "toTable": "Transactions",
+          "toField": "vendor_id",
+          "type": "One-to-Many",
+          "description": "A vendor can be associated with multiple transactions across different customers."
+        }
+      ]
+    }
+  }
