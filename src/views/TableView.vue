@@ -1,31 +1,32 @@
-<!-- src/views/TableView.vue -->
+
+
 <template>
   <div class="view">
-    <!-- Hamburger Icon -->
-    <button v-if="!sidebarOpen" class="hamburger" @click="toggleSidebar">
-    ☰
-    </button>
-
-    <!-- Sidebar Overlay -->
+    <button v-if="!sidebarOpen" class="hamburger" @click="toggleSidebar">☰</button>
     <div class="sidebar" v-if="sidebarOpen">
       <button class="close-btn" @click="toggleSidebar">✕</button>
-      <TableTreeView @select="handleSelect" />
+      <!-- Pass correct table list -->
+      <TableTreeView :tables="tables" @select="handleSelect" />
     </div>
-
-    <!-- Table Details View -->
     <div :class="['details', { 'with-sidebar': sidebarOpen }]" v-if="selected">
-    <TableDetails :table="selected" />
+      <TableDetails :table="selected" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useDataModelStore } from '@/store/dataModelStore'
 import TableTreeView from '@/components/TableTreeView.vue'
 import TableDetails from '@/components/TableDetails.vue'
 
+const store = useDataModelStore()
 const selected = ref(null)
 const sidebarOpen = ref(false)
+
+const tables = computed(() => {
+  return store.showingSource ? store.dataDictionary : store.dataModel.tables
+})
 
 function toggleSidebar() {
   sidebarOpen.value = !sidebarOpen.value
@@ -33,7 +34,6 @@ function toggleSidebar() {
 
 function handleSelect(table) {
   selected.value = table
-  //sidebarOpen.value = false // Optional: auto-close sidebar on table select
 }
 </script>
 
@@ -41,101 +41,73 @@ function handleSelect(table) {
 .view {
   position: relative;
   height: 100vh;
-  background-color: #007bff;
+  background: #f5f7fb;
   font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
-  color: #050000;
+  color: #0f172a;
   overflow: hidden;
 }
 
-/* Hamburger Icon */
 .hamburger {
   position: fixed;
   top: 16px;
   left: 16px;
   z-index: 1001;
-  font-size: 28px;
-  background: none;
-  border: none;
-  color: rgb(30, 2, 2);
+  font-size: 24px;
+  line-height: 1;
+  background: #ffffff;
+  color: #334155;
+  border: 1px solid #e6eaf2;
+  border-radius: 10px;
+  padding: 8px 10px;
   cursor: pointer;
+  box-shadow: 0 4px 16px rgba(16, 24, 40, 0.06);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.hamburger:hover {
+  background: #f1f4f9;
+  border-color: #d8dee9;
 }
 
-/* Sidebar as overlay */
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 280px;
+  width: 300px;
   height: 100vh;
-  background-color: #0056b3;
-  padding: 16px;
+  background: #ffffff;
+  border-right: 1px solid #e6eaf2;
+  padding: 16px 14px 16px 16px;
   overflow-y: auto;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
   z-index: 1000;
 }
-
-.sidebar::-webkit-scrollbar {
-  width: 6px;
-}
+.sidebar::-webkit-scrollbar { width: 8px; }
 .sidebar::-webkit-scrollbar-thumb {
-  background-color: #3399ff;
-  border-radius: 10px;
+  background: #d8dee9;
+  border-radius: 8px;
 }
 
-/* Close button inside sidebar */
 .close-btn {
   position: absolute;
   top: 12px;
-  right: 12px;
+  right: 10px;
   background: transparent;
   border: none;
-  font-size: 20px;
-  color: rgb(25, 23, 23);
+  font-size: 18px;
+  color: #475569;
   cursor: pointer;
 }
 
-/* Main content */
-
 .details {
-  transition: margin-left 0.3s ease;
-  padding: 24px;
-  overflow-y: auto;
   height: 100vh;
-  background-color: #e6f0ff;
-  color: #333;
+  padding: 28px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background: #fbfdff;
+  color: #0f172a;
+  transition: margin-left 0.28s ease;
 }
 .details.with-sidebar {
-  margin-left: 310px; /* Same width as sidebar */
-}
-.details h2 {
-  font-size: 24px;
-  margin-bottom: 16px;
-}
-
-.details table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  background: #fff;
-}
-
-.details th,
-.details td {
-  padding: 14px 18px;
-  border: 1px solid #ccc;
-  text-align: left;
-}
-
-.details th {
-  background-color: #007bff;
-  color: white;
-}
-
-.details tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-.details tr:hover {
-  background-color: #d9ecff;
+  margin-left: 300px;
 }
 </style>

@@ -1,20 +1,30 @@
-// src/store/dataModelStore.js
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
-export const useDataModelStore = defineStore('dataModel', () => {
-  const dataModel = ref([])
+import { ref ,computed } from 'vue'
 
-  const setDataModel = (rawData) => {
-    const normalized = rawData.map(table => ({
-      table_name: table.table_name || table.Table,
-      table_description: table.table_description || table.description,
-      fields: table.fields.map(f => ({
-        field_name: f.field_name,
-        field_description: f.field_description || f.description
-      }))
-    }))
-    dataModel.value = normalized
+export const useDataModelStore = defineStore('dataModel', () => {
+  const dataDictionary = ref([]) 
+  const dataModel = ref({ tables: [], relationships: [] }) 
+  const showingSource = ref(false) 
+  
+  const hasDataModel = computed(() => {
+    return dataModel.value?.tables?.length > 0 && dataModel.value?.relationships?.length > 0
+  })
+  const setDataDictionary = (tables) => {
+    dataDictionary.value = tables
+    showingSource.value = true
   }
 
-  return { dataModel, setDataModel }
+  const setDataModel = (model) => {
+    dataModel.value = model
+    showingSource.value = false
+  }
+
+  return {
+    dataDictionary,
+    dataModel,
+    showingSource,
+    setDataDictionary,
+    setDataModel,
+    hasDataModel
+  }
 })

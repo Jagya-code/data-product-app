@@ -1,172 +1,25 @@
-<!-- <template>
-  <div class="er-view">
-    <div class="header">
-      <h2>ER Diagram</h2>
-      <button class="fullscreen-btn" @click="toggleFullscreen">⛶ Fullscreen</button>
-    </div>
-    <div id="network" ref="networkRef"></div>
-  </div>
-</template>
-
-<script setup>
-import { onMounted, computed, ref } from 'vue'
-import { useDataModelStore } from '@/store/dataModelStore'
-import { Network } from 'vis-network'
-
-const store = useDataModelStore()
-const networkRef = ref(null)
-
-const relationships = computed(() => {
-  const links = []
-  const tables = store.dataModel
-
-  tables.forEach(source => {
-    source.fields.forEach(field => {
-      tables.forEach(target => {
-        if (
-          source.table_name !== target.table_name &&
-          target.fields.some(f => f.field_name === field.field_name)
-        ) {
-          links.push({
-            from: source.table_name,
-            to: target.table_name,
-            label: field.field_name
-          })
-        }
-      })
-    })
-  })
-
-  return links
-})
-
-onMounted(() => {
-  const nodes = store.dataModel.map(table => ({
-    id: table.table_name,
-    label: table.table_name,
-    shape: 'box',
-    font: { face: 'Segoe UI', size: 14 },
-    color: {
-      background: '#f0f4f8',
-      border: '#aac8e4'
-    },
-    margin: 12
-  }))
-
-  const edges = relationships.value.map(rel => ({
-    from: rel.from,
-    to: rel.to,
-    arrows: 'to',
-    label: rel.label,
-    font: { align: 'middle', color: '#555' },
-    color: { color: '#bbb' }
-  }))
-
-  const container = networkRef.value
-  const data = { nodes, edges }
-
-  const options = {
-    layout: {
-      improvedLayout: true,
-      hierarchical: false
-    },
-    physics: {
-      enabled: false
-    },
-    interaction: {
-      zoomView: true,
-      dragView: true
-    },
-    edges: {
-      smooth: {
-        type: 'cubicBezier',
-        roundness: 0.4
-      }
-    }
-  }
-
-  new Network(container, data, options)
-})
-
-// Toggle fullscreen mode
-function toggleFullscreen() {
-  const element = networkRef.value
-  if (!document.fullscreenElement) {
-    element.requestFullscreen?.()
-  } else {
-    document.exitFullscreen?.()
-  }
-}
-</script>
-
-<style scoped>
-.er-view {
-  height: 100vh;
-  background-color: #f4f6f8;
-  padding: 16px;
-  box-sizing: border-box;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-h2 {
-  color: #1e3a5f;
-  margin: 0;
-}
-
-.fullscreen-btn {
-  padding: 8px 14px;
-  background-color: #c5d7e5;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  color: #1e3a5f;
-  transition: background-color 0.2s ease;
-}
-
-.fullscreen-btn:hover {
-  background-color: #b3cbe0;
-}
-
-#network {
-  width: 100%;
-  height: 90%;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  background: white;
-}
-</style> -->
-
-
-
-
-<!-- src/views/ERView.vue -->
 <template>
-  <div class="er-view">
+  <div class="er-view" ref="erRef">
     <div class="header">
       <h2>ER Diagram</h2>
-      <button class="fullscreen-btn" @click="toggleFullscreen">⛶ Fullscreen</button>
+      <button class="fullscreen-btn" @click="toggleFullscreen">
+        Fullscreen
+      </button>
     </div>
-    <div id="er-container" ref="erRef">
+
+    <div id="er-container">
       <VueFlow
+        class="flow-canvas"
         :nodes="nodes"
         :edges="edges"
-        fit-view-on-init
-        :nodes-draggable="true"
-        :zoom-on-scroll="true"
-        class="flow-canvas"
+        :node-types="{ custom: 'custom' }"
+        fit-view
       >
         <template #node-custom="{ data }">
           <div class="custom-node">
             <strong>{{ data.table_name }}</strong>
             <ul>
-              <li v-for="field in data.fields" :key="field.field_name">
+              <li v-for="(field, idx) in data.fields" :key="idx">
                 <span>{{ field.field_name }}</span>
                 <small>{{ field.data_type }}</small>
               </li>
@@ -179,68 +32,55 @@ h2 {
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useDataModelStore } from '@/store/dataModelStore'
-import { VueFlow } from '@vue-flow/core'
-import '@vue-flow/core/dist/style.css'
-import '@vue-flow/core/dist/theme-default.css'
+import { ref, watch, onMounted } from "vue";
+import { useDataModelStore } from "@/store/dataModelStore";
+import { VueFlow } from "@vue-flow/core";
+import "@vue-flow/core/dist/style.css";
+import "@vue-flow/core/dist/theme-default.css";
 
-const store = useDataModelStore()
-const erRef = ref(null)
-const nodes = ref([])
-const edges = ref([])
+const store = useDataModelStore();
+const erRef = ref(null);
+const nodes = ref([]);
+const edges = ref([]);
 
-// Build nodes and edges from the data model
-const relationships = computed(() => {
-  const links = []
-  const tables = store.dataModel
+function buildDiagram() {
+  if (!store.dataModel.tables.length || !store.dataModel.relationships.length) {
+    nodes.value = [];
+    edges.value = [];
+    return;
+  }
+  
+  console.log("Tables:", store.dataModel.tables);
+  console.log("Relationships:", store.dataModel.relationships);
+  
+  nodes.value = store.dataModel.tables.map((table, i) => ({
+    id: table.table_name,
+    type: "custom",
+    position: { x: i * 350, y: 100 },
+    data: table,
+  }));
+  
+  edges.value = store.dataModel.relationships.map((rel, idx) => ({
+    id: `e-${idx}`,
+    source: rel.fromTable || rel.from,
+    target: rel.toTable || rel.to,
+    label: rel.on || rel.type || "",
+    animated: true,
+  }));
+}
 
-  tables.forEach(source => {
-    source.fields.forEach(field => {
-      tables.forEach(target => {
-        if (
-          source.table_name !== target.table_name &&
-          target.fields.some(f => f.field_name === field.field_name)
-        ) {
-          links.push({
-            from: source.table_name,
-            to: target.table_name,
-            on: field.field_name
-          })
-        }
-      })
-    })
-  })
-
-  return links
-})
+watch(() => store.dataModel, buildDiagram, { deep: true });
 
 onMounted(() => {
-  // Create nodes from tables
-  nodes.value = store.dataModel.map((table, i) => ({
-    id: table.table_name,
-    type: 'custom',
-    position: { x: i * 350, y: 100 },
-    data: table
-  }))
+  buildDiagram();
+});
 
-  // Create edges from relationships
-  edges.value = relationships.value.map((rel, idx) => ({
-    id: `e-${idx}`,
-    source: rel.from,
-    target: rel.to,
-    label: rel.on,
-    animated: true
-  }))
-})
-
-// Toggle fullscreen mode
 function toggleFullscreen() {
-  const element = erRef.value
+  const element = erRef.value;
   if (!document.fullscreenElement) {
-    element.requestFullscreen?.()
+    element?.requestFullscreen();
   } else {
-    document.exitFullscreen?.()
+    document.exitFullscreen?.();
   }
 }
 </script>
@@ -248,46 +88,48 @@ function toggleFullscreen() {
 <style scoped>
 .er-view {
   height: 100vh;
-  background-color: #f4f6f8;
-  padding: 16px;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  background: #f5f7fb;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  justify-content: space-between;
 }
 
-h2 {
-  color: #1e3a5f;
+.header h2 {
   margin: 0;
+  font-weight: 600;
+  color: #1f2937;
 }
 
 .fullscreen-btn {
-  padding: 8px 14px;
-  background-color: #c5d7e5;
-  border: none;
-  border-radius: 6px;
+  padding: 8px 12px;
+  background: #eef2f7;
+  border: 1px solid #dfe5ef;
+  border-radius: 8px;
   font-size: 14px;
+  color: #334155;
   cursor: pointer;
-  color: #1e3a5f;
-  transition: background-color 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
-
 .fullscreen-btn:hover {
-  background-color: #b3cbe0;
+  background: #e7ecf5;
+  border-color: #ccd5e4;
 }
 
 #er-container {
   flex: 1;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  background: white;
+  border: 1px solid #e6eaf2;
+  border-radius: 12px;
+  background: #ffffff;
   overflow: hidden;
+  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.06);
 }
 
 .flow-canvas {
@@ -295,40 +137,48 @@ h2 {
   height: 100%;
 }
 
+/* Node styling inside VueFlow slot */
 .custom-node {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  width: 240px;
+  background: #ffffff;
+  border: 1px solid #e6eaf2;
+  border-radius: 10px;
   padding: 10px;
-  width: 200px;
   text-align: left;
+  box-shadow: 0 4px 16px rgba(16, 24, 40, 0.04);
 }
 
 .custom-node strong {
   display: block;
-  font-size: 1em;
+  font-size: 14px;
+  color: #1f2937;
   margin-bottom: 8px;
   padding-bottom: 6px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f0f3f8;
 }
 
 .custom-node ul {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 .custom-node li {
   display: flex;
   justify-content: space-between;
+  gap: 8px;
   padding: 4px 0;
+  font-size: 12px;
+  color: #475569;
+  border-bottom: 1px solid #f7f9fc;
 }
 
-.custom-node li:not(:last-child) {
-  border-bottom: 1px solid #f5f5f5;
+.custom-node li:last-child {
+  border-bottom: none;
 }
 
 .custom-node small {
-  color: #888;
+  color: #8b97a8;
+  white-space: nowrap;
 }
 </style>

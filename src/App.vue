@@ -3,17 +3,28 @@
     <nav class="tabs">
       <router-link to="/" exact-active-class="active">Load Data</router-link>
       <router-link to="/tables" exact-active-class="active">Tables</router-link>
-      <router-link to="/diagram" exact-active-class="active">ER Diagram</router-link>
+    
+       <router-link 
+        v-if="hasDataModel"
+        to="/diagram" 
+        exact-active-class="active"
+      >
+        ER Diagram
+      </router-link>
+      <span v-else class="disabled-tab">ER Diagram</span>
     </nav>
     <router-view />
   </div>
 </template>
 
 
-<script>
-export default {
-  name: 'App'
-}
+<script setup>
+import { storeToRefs } from 'pinia'
+import { useDataModelStore } from './store/dataModelStore'
+
+// access store
+const dataModelStore = useDataModelStore()
+const { hasDataModel } = storeToRefs(dataModelStore) //
 </script>
 
 <style>
@@ -53,5 +64,13 @@ html, body {
   background-color: #c5d7e5;
   color: #1e3a5f;
   font-weight: 600;
+}
+.tabs .disabled-tab {
+ pointer-events: none;
+  opacity: 0.5;
+  color: #888;          
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 500;
 }
 </style>
