@@ -61,24 +61,31 @@ function readFile(file, callback) {
 }
 function normalizeDataDictionary(data) {
   return data.map(table => ({
-    table_name: table.table_name || table.Table || '',
+    table_name: table.table_name || table.name || table.Table || '',
     table_description: table.table_description || table.description || '',
     fields: (table.fields || []).map(field => ({
-      field_name: field.field_name || field.Field || '',
+      field_name: field.field_name || field.name || field.Field || '',
       field_description: field.field_description || field.description || field.fieldDescription || '',
       data_type: field.data_type || field.Type || ''
     }))
   }))
 }
-
 function loadSourceFile() {
   try {
     const parsed = JSON.parse(sourceFileData.value);
 
-    // If it's wrapped in source_data, unwrap it
-    const tablesArray = Array.isArray(parsed) 
-      ? parsed 
-      : parsed?.source_data || [];
+    // Case 1: array at root
+    let tablesArray = Array.isArray(parsed) ? parsed : null;
+
+    // Case 2: object with "tables"
+    if (!tablesArray && parsed?.tables) {
+      tablesArray = parsed.tables;
+    }
+
+    // Case 3: object with "source_data"
+    if (!tablesArray && parsed?.source_data) {
+      tablesArray = parsed.source_data;
+    }
 
     if (!Array.isArray(tablesArray) || tablesArray.length === 0) {
       alert('Invalid Source Data Dictionary format.');
@@ -87,13 +94,14 @@ function loadSourceFile() {
 
     const normalized = normalizeDataDictionary(tablesArray);
     store.setDataDictionary(normalized);
-    store.showingSource = true; // tell UI to show source dictionary
+    store.showingSource = true; 
     alert('Source Data Dictionary Loaded Successfully!');
   } catch (err) {
     alert('Invalid JSON format for Data Dictionary.');
     console.error(err);
   }
 }
+
 function loadModelFile() {
   try {
     const parsed = JSON.parse(modelFileData.value)
