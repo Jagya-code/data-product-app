@@ -98,7 +98,7 @@ function selectTable(table) {
 .table-list li {
   padding: 12px 16px;
   margin-bottom: 10px;
-  background-color:#cddeec;
+  background-color:#d8e2eb;
   border-radius: 6px;
   color: #333;
   cursor: pointer;
