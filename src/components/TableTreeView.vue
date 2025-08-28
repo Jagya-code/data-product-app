@@ -98,16 +98,16 @@ function selectTable(table) {
 .table-list li {
   padding: 12px 16px;
   margin-bottom: 10px;
-  background-color: #f0f4f8;
+  background-color:#cddeec;
   border-radius: 6px;
   color: #333;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .table-list li:hover {
-  background-color: #d6e2ed;
+  background-color: #aec3d6;
 }
 
 .table-list li.selected {

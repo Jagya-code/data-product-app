@@ -60,13 +60,21 @@ function buildDiagram() {
     data: table,
   }));
   
+  // edges.value = store.dataModel.relationships.map((rel, idx) => ({
+  //   id: `e-${idx}`,
+  //   source: rel.fromTable || rel.from,
+  //   target: rel.toTable || rel.to,
+  //   label: rel.on || rel.type || "",
+  //   animated: true,
+  // }));
   edges.value = store.dataModel.relationships.map((rel, idx) => ({
-    id: `e-${idx}`,
-    source: rel.fromTable || rel.from,
-    target: rel.toTable || rel.to,
-    label: rel.on || rel.type || "",
-    animated: true,
-  }));
+  id: `e-${idx}`,
+  source: rel.fromTable || rel.from,
+  target: rel.toTable || rel.to,
+  label: rel.relationship?.type || rel.on || rel.type || "",
+  animated: true,
+}));
+
 }
 
 watch(() => store.dataModel, buildDiagram, { deep: true });
@@ -140,7 +148,7 @@ function toggleFullscreen() {
 /* Node styling inside VueFlow slot */
 .custom-node {
   width: 240px;
-  background: #ffffff;
+  background: #cddeec;
   border: 1px solid #e6eaf2;
   border-radius: 10px;
   padding: 10px;
@@ -169,7 +177,7 @@ function toggleFullscreen() {
   gap: 8px;
   padding: 4px 0;
   font-size: 12px;
-  color: #475569;
+  color: #0e1013;
   border-bottom: 1px solid #f7f9fc;
 }
 
@@ -178,7 +186,7 @@ function toggleFullscreen() {
 }
 
 .custom-node small {
-  color: #8b97a8;
+  color: #5e6774;
   white-space: nowrap;
 }
 </style>

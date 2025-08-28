@@ -104,37 +104,41 @@ function loadSourceFile() {
 
 function loadModelFile() {
   try {
-    const parsed = JSON.parse(modelFileData.value)
+    const parsed = JSON.parse(modelFileData.value);
 
-    if (!parsed?.schema?.tables || !parsed?.schema?.relationships) {
-      alert('Invalid Data Model format.')
-      return
+    // Accepts both { schema: { tables, relationships }} and { tables, relationships }
+    const tablesArray = parsed?.schema?.tables || parsed?.tables || null;
+    const relationshipsArray = parsed?.schema?.relationships || parsed?.relationships || null;
+
+    if (!Array.isArray(tablesArray) || !Array.isArray(relationshipsArray)) {
+      alert('Invalid Data Model format.');
+      return;
     }
 
     // Normalize table fields
-    const normalizedTables = parsed.schema.tables.map(table => {
+    const normalizedTables = tablesArray.map(table => {
       return {
-        table_name: table.tableName || table.Table || '',
-        table_description: table.description || '',
-        fields: table.fields.map(field => ({
-          field_name: field.field_name || field.fieldName || '',
-          field_description: field.description || field.fieldDescription || '',
-          data_type: field.data_type || field.dataType || ''
+        table_name: table.table_name || table.name || table.Table || '',
+        table_description: table.table_description || table.description || '',
+        fields: (table.fields || []).map(field => ({
+          field_name: field.field_name || field.name || field.Field || '',
+          field_description: field.field_description || field.description || field.fieldDescription || '',
+          data_type: field.data_type || field.dtype || field.dataType || field.Type || ''
         }))
-      }
-    })
+      };
+    });
 
     store.setDataModel({
       tables: normalizedTables,
-      relationships: parsed.schema.relationships
-    })
-    store.showingSource = false
+      relationships: relationshipsArray
+    });
+    store.showingSource = false;
 
-    console.log('Tables after normalization:', store.dataModel.tables)
-    alert('Data Model Loaded Successfully!')
+    console.log('Tables after normalization:', store.dataModel.tables);
+    alert('Data Model Loaded Successfully!');
   } catch (err) {
-    alert('Invalid JSON format for Data Model.')
-    console.error(err)
+    alert('Invalid JSON format for Data Model.');
+    console.error(err);
   }
 }
 
